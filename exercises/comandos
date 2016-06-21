@@ -1,0 +1,5 @@
+gcc -Wall -pedantic -ansi -o <arquivo> <arquivo.c>
+g++ -Wall -pedantic -ansi -o prob01.exe prob01.cpp
+./prob01.exe
+
+

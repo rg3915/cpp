@@ -1,0 +1,98 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{../../../../LaTeX/modelos/preambulo}
+\usepackage{hyperref}
+\hypersetup{pdfpagelayout=SinglePage,%TwoPageLeft,
+  bookmarksopen=true,
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=black,
+  pdftitle={Introdução a Programação},
+  pdfauthor={R\'egis S. Santos}
+}
+
+%% preambulo para intro_prog.tex
+\lstset{explpreset={
+    language=C++,
+    float=hbp,
+    basicstyle=\ttfamily\small, 
+    identifierstyle=\color{colIdentifier}, 
+    keywordstyle=\color{colKeys}, 
+    stringstyle=\color{colString}, 
+    commentstyle=\color{colComments}, 
+    columns=flexible, 
+    tabsize=4, 
+    frame=none,   %%frame=single
+    rframe={}
+    },
+    language=C++,
+    basicstyle=\ttfamily\small, 
+    identifierstyle=\color{colIdentifier}, 
+    keywordstyle=\color{colKeys}, 
+    stringstyle=\color{colString}, 
+    commentstyle=\color{colComments}, 
+    hsep=10mm,
+    extendedchars=true, 
+    showspaces=false, 
+    showstringspaces=false, 
+    %%numbers=none,
+    numbers=left,
+    numberstyle=\tiny, 
+    breaklines=true, 
+    backgroundcolor=\color{green!10}, 
+    breakautoindent=true, 
+    captionpos=b,
+    xleftmargin=0pt,
+}
+
+\fancyfoot[C]{\scriptsize{Lista 01}}
+
+\theorembodyfont{\normalfont\upshape}
+\newtheorem{eex}{Exerc\'icio E-}
+
+\title{Introdução à Programação - turma 1 (diurno)}
+\author{Lista 01 - R\'egis S. Santos}
+\date{2012}
+%*******************************************************
+\begin{document}
+
+\maketitle
+
+%1
+\begin{eex}
+* Dada uma sequ\^encia de n\'umeros inteiros positivos seguida por 0, imprimir seus quadrados.
+\end{eex}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, quadrado = 0;
+    cout << "Digite um numero: ";
+    cin >> n;
+    quadrado = n * n;
+    cout << quadrado << endl;
+    while (n != 0)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> n;
+        quadrado = n * n;
+        cout << quadrado << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+%2
+\begin{eex}
+
+\end{eex}
+
+\begin{lstlisting}
+
+\end{lstlisting}
+
+
+
+\end{document}

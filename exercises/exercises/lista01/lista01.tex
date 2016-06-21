@@ -1,0 +1,235 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{../../../../../LaTeX/modelos/preambulo}
+\usepackage{hyperref}
+\hypersetup{pdfpagelayout=SinglePage,%TwoPageLeft,
+  bookmarksopen=true,
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=black,
+  pdftitle={Introdução a Programação},
+  pdfauthor={R\'egis S. Santos}
+}
+
+%% preambulo para intro_prog.tex
+\lstset{explpreset={
+    language=C++,
+    float=hbp,
+    basicstyle=\ttfamily\small, 
+    identifierstyle=\color{colIdentifier}, 
+    keywordstyle=\color{colKeys}, 
+    stringstyle=\color{colString}, 
+    commentstyle=\color{colComments}, 
+    columns=flexible, 
+    tabsize=4, 
+    frame=none,   %%frame=single
+    rframe={}
+    },
+    language=C++,
+    basicstyle=\ttfamily\small, 
+    identifierstyle=\color{colIdentifier}, 
+    keywordstyle=\color{colKeys}, 
+    stringstyle=\color{colString}, 
+    commentstyle=\color{colComments}, 
+    hsep=10mm,
+    extendedchars=true, 
+    showspaces=false, 
+    showstringspaces=false, 
+    %%numbers=none,
+    numbers=left,
+    numberstyle=\tiny, 
+    breaklines=true, 
+    backgroundcolor=\color{green!10}, 
+    breakautoindent=true, 
+    captionpos=b,
+    xleftmargin=0pt,
+}
+
+\fancyfoot[C]{\scriptsize{Lista 01}}
+
+\theorembodyfont{\normalfont\upshape}
+\newtheorem{eex}{Exerc\'icio E-}
+
+\title{Introdução à Programação - turma 1 (diurno)}
+\author{Lista 01 - R\'egis S. Santos}
+\date{2012}
+%*******************************************************
+\begin{document}
+
+\maketitle
+
+%1
+\begin{eex}
+* Dada uma sequ\^encia de n\'umeros inteiros positivos seguida por 0, imprimir seus quadrados.
+\end{eex}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, quadrado = 0;
+    cout << "Digite um numero: ";
+    cin >> n;
+    quadrado = n * n;
+    cout << quadrado << endl;
+    while (n != 0)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> n;
+        quadrado = n * n;
+        cout << quadrado << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+%2
+\begin{eex}
+Dados o n\'umero $n > 0$ de alunos de uma turma e suas notas da primeira prova, determinar a maior nota, a menor nota e a m\'edia inteira dessa prova.
+\end{eex}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, nota, maior, menor, media;
+    cout << "Digite o numero de alunos: ";
+    cin >> n;
+    cout << "Digite as notas: ";
+    cin >> nota;
+    maior = nota;
+    menor = nota;
+    media = nota;
+    for (i = 1; i < n; i++)
+    {
+        cin >> nota;
+        if (nota > maior)
+            maior = nota;
+        if (nota < menor)
+            menor = nota;
+        media += nota;
+    }
+    media = media / n;
+    cout << "A maior nota 'e " << maior << endl;
+    cout << "A menor nota 'e " << menor << endl;
+    cout << "A media 'e " << media << endl;
+    return 0;
+} 
+\end{lstlisting}
+
+%3
+\begin{eex}
+Dado um n\'umero natural na base bin\'aria, transform\'a-lo para a base decimal. Exemplo: Dado 110010 a saída será 50, pois $1.2^5 + 1.2^4 + 0.2^3 + 0.2^2 + 1.2^1 + 0.2^0 = 50$.
+\end{eex}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int binario, potencia = 1, resto = 0, decimal = 0;
+    cout << "Digite um numero binario: ";
+    cin >> binario;
+    while (binario > 0)
+    {
+        resto = binario % 10;
+        binario /= 10;
+        decimal = decimal + (resto * potencia);
+        potencia *= 2;
+    }
+    cout << decimal << endl;
+    return 0;
+}
+\end{lstlisting}
+
+%4
+\begin{eex}
+* Dado um n\'umero natural na base decimal, transormá-lo para a base binária. Exemplo: Dado 50 a saída deverá ser 110010.
+\end{eex}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, binario = 0, digito, potencia = 1;
+    cout << "Digite um numero: ";
+    cin >> n;
+    while (n > 0)
+    {
+        digito = n % 2;
+        n = n / 2;
+        binario = binario + digito * potencia;
+        potencia = potencia * 10;
+    }
+    cout << binario << endl;
+    return 0;
+} 
+\end{lstlisting}
+
+%5
+\begin{eex}
+Dados um inteiro positivo $n$ e $n$ sequ\^encias de números inteiros, cada qual terminada por 0, calcular a soma dos números pares de cada sequ\^encia.
+\end{eex}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main ()
+{
+    int n, i, numero, soma = 0;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    for (i = 0; i < n; i++)
+    {
+        while (numero != 0)
+        {
+            cin >> numero;
+            if (numero % 2 == 0)
+            {
+                soma += numero;
+            }
+        }
+        cout << "Soma = " << soma << endl;
+        numero = 1; /*acho que fiz uma gambiarra!*/
+        soma = 0;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+%6
+\begin{eex}
+* Dados $n$ e uma sequ\^encia de $n$ números inteiros positivos, calcular a soma dos números da sequ\^encia que s\~ao primos.
+\end{eex}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, j, numero = 0, primo = 0, soma = 0;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    cout << "Digite os " << n << " numeros: ";
+    for (i = 0; i < n; i++)
+    {
+        cin >> numero;
+        for (primo = 0, j = 1; j <= numero; j++)
+        {
+            if (numero %j == 0)
+                primo ++;
+        }
+        if (primo == 2)
+        {
+            soma = soma + numero;
+        }
+    }
+    cout << "A soma dos primos 'e = " << soma << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{document}
