@@ -1,0 +1,3186 @@
+\documentclass[a4paper]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[comandos,teorema]{../../LaTeX/modelos/preambulo}
+% \usepackage[comandos,teorema]{../preambulo}
+\usepackage{pre}
+\usepackage{fourier}
+\usepackage{hyperref}
+%\hypersetup{pdfpagelayout=SinglePage,
+\hypersetup{pdfpagelayout=TwoPageLeft,
+  bookmarksopen=true,
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=black,
+  pdftitle={Introdução a Programação},
+  pdfauthor={R\'egis S. Santos}
+}
+
+
+
+\title{Introdução à Programação}
+\author{R\'egis S. Santos}
+\date{2012}
+%*******************************************************
+\begin{document}
+%suprime numeracao de rodape na capa
+\begin{titlingpage}
+  \maketitle
+\end{titlingpage}
+
+\tableofcontents
+
+\chapter*{Prefácio}
+
+Esta apostila foi criada a partir de notas de aula do Curso de Verão \emph{Introdução \`a Programação} realizado no IME-USP em 2012.
+
+\'E permitida a reprodu\c{c}\~ao total ou parcial desta apostila desde que indicada a autoria.
+
+Esta apostila foi criada para uso pessoal, portanto, adaptada para tal fim. E est\'a sujeito a conter erros, portanto, s\~ao aceitas sugest\~oes e cr\'{\i}ticas construtivas para melhoria do mesmo.
+
+Os livros aqui citados \cite{ritchie1989c}, \cite{walters1996c} servem como material complementar para um estudo mais aprofundado.
+
+Links
+
+\url{http://www.ime.usp.br/~macmulti/}
+
+\url{http://www.ime.usp.br/~hitoshi/introducao/}
+
+\url{http://www.ime.usp.br/~mac2166/livros/rede.html}
+
+\vfill
+
+\begin{flushright}
+\textit{R\'egis da Silva Santos}
+
+IME-USP, 2012.
+\end{flushright}
+
+
+\part{Introdução}
+
+\chapter{Introdução}
+
+\section{Computador a papel}
+
+\url{http://www.ime.usp.br/~vwsetzer/comp-papel.html}
+
+\begin{ex}
+Computador a papel
+
+1 \texttt{carregue no acumulador o [end.14]}
+
+2 \texttt{armazene o [AC] no end.12}
+
+3 \texttt{leia um número e armazene no end.13}
+
+4 \texttt{escreva [end.13]}
+
+5 \texttt{carregue no AC o [end.12]}
+
+6 \texttt{some o [end.13] ao acumulador e coloque no acumulador}
+
+7 \texttt{armazene no AC o [end.12]}
+
+8 \texttt{carregue no acumulador o [end.13]}
+
+9 \texttt{se [AC] $\ne 0$ desvie para o end.3}
+
+10 \texttt{imprima o [end.12]}
+
+11 \texttt{pare}
+\end{ex}
+
+\textbf{Processador}
+
+1 \texttt{lê o comando}
+
+2 \texttt{move o apontador para o próximo}
+
+3 \texttt{executa o comando}
+
+\section{Dispositivos de entrada e saída}
+
+\tkzfig{fig01}{Dispositivos de entrada e saída}
+
+\section{Instalando o Code Blocks}
+
+\url{http://www.codeblocks.org/}
+
+Veja \emph{instalando CodeBlocks no Linux.pdf} e \emph{instalando CodeBlocks no Windows.pdf}.
+
+
+
+\chapter{Compilando pelo terminal no Linux}
+
+Para compilar pelo \emph{terminal}, se o arquivo for escrito em \texttt{C} digite
+
+\verb|gcc -Wall -pedantic -ansi -o <arquivo> <arquivo.c>|
+
+em \texttt{C++}
+
+\verb|g++ -Wall -pedantic -ansi -o <arquivo> <arquivo.cpp>|
+
+\
+
+Para executar o binário digite
+
+\verb|./arquivo|
+
+\textbf{NOTA}: Devido algumas situações particulares do meu HD vou citar aqui os problemas e soluções que eu encontrei durante a execução dos arquivos:
+
+Meu HD está montado com a opção \emph{showexec}.
+
+\begin{enumerate}
+ \item se o arquivo \emph{prob01.cpp} estiver na \textbf{pasta pessoal} e for compilado via Code::Blocks será executado um binário \emph{prob01} (sem extensão) e o mesmo será executado normalmente. OK
+
+ \begin{enumerate}
+  \item se este mesmo binário for executado via \emph{terminal} através do comando \verb|./prob01| também será executado normalmente. OK
+ \end{enumerate}
+
+ \item se o arquivo \emph{prob01.cpp} estiver (no meu caso num HD particionado) e for compilado via Code::Blocks será executado um binário \emph{prob01} (sem extensão) e o mesmo NÃO será executado. Permissão negada. FALHOU.
+
+ \begin{enumerate}
+  \item se este mesmo binário for executado via terminal através do comando \verb|./prob01| também NÃO será executado. Permissão negada. FALHOU.
+  \item SOLUÇÃO: Para compilar via \emph{terminal} num HD particionado (no meu caso) devemos gerar um \emph{prob01.exe}, então no terminal façamos
+
+  \verb|g++ -Wall -pedantic -ansi -o prob01.exe prob01.cpp|
+
+Para executar digite
+
+\verb|./prob01.exe|
+
+ \end{enumerate}
+
+\end{enumerate}
+
+\
+
+\verb|-Wall| retorna possíveis erros durante a compilação. Abreviação para Warnings: all.
+
+\verb|-pedantic| é para fazer uma compilação pedante, ou seja, ser bem estrito na interpretação do código checando tipos nas atribuições de variáveis e afins.
+
+\verb|-ansi| utiliza o padrão ANSI da linguagem. Serve para portabilidade.
+
+\verb|-o|, junto com \verb|-Wall| acusa que variáveis podem não estar inicializadas.
+
+
+
+\chapter{Introdução à Programação}
+
+\begin{ex}
+Pseudo-código
+
+inteiro soma, numero
+
+soma $\leftarrow 0$
+
+leia (numero)
+
+escreva numero
+
+enquanto (numero $\ne 0$) faça
+
+\{
+
+\qquad soma $\leftarrow$ soma $+$ numero
+
+\qquad leia (numero)
+
+\qquad escreva (numero)
+
+\}
+
+escreva soma
+\end{ex}
+
+\begin{simu}
+simulação
+
+\begin{center}
+\begin{tabular}{cccl}
+numero & soma & linha & \\
+? & ? & 1 & \\
+? & 0 & 2 & \\
+2 & 0 & 3 & lê o 2\\
+2 & 0 & 4 & escreve 2\\
+2 & 0 & 5 & \\
+2 & 2 & 6 & \\
+13 & 2 & 7 & lê o 13\\
+13 & 2 & 8 & escreve 13\\
+13 & 2 & 5 & \\
+13 & 15 & 6 & \\
+0 & 15 & 7 & lê o 0\\
+0 & 15 & 8 & escreve 0\\
+0 & 15 & 5 & \\
+0 & 15 & 9 & escreve 15\\
+\end{tabular}
+\end{center}
+
+\end{simu}
+
+\begin{ex}[C++]
+C++
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int numero, soma;
+    soma = 0;
+    cin >> numero;
+    cout << numero << endl;
+    while (numero != 0)
+    {
+        soma = soma + numero;
+        cin >> numero;
+        cout << numero << endl;
+    }
+    cout << "soma = " << soma << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{ex}
+
+\section{Esqueleto de um programa em C++}
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+  /*declaracao de variaveis*/
+  /*comandos*/
+  return 0;
+}
+\end{lstlisting}
+
+\begin{prob}\label{prob101.cpp}
+Dada uma sequência de números inteiros diferentes de zero, terminada por um zero, calcular a sua soma. Por exemplo, para a sequência 12 7 4 -6 8 0 o seu programa deve escrever o número 35.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int numero, soma;
+    soma = 0;
+    cin >> numero;
+    cout << numero << endl;
+    while (numero != 0)
+    {
+        soma = soma + numero;
+        cin >> numero;
+        cout << numero << endl;
+    }
+    cout << "soma = " << soma << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\subsection*{declaração de variáveis (linha 5)}
+
+\verb|int numero, soma;| é a declaração de variáveis.
+
+\verb|int a;|
+
+\verb|int a, b, c;|
+
+\noindent onde \verb|int| são números inteiros. As variáveis são \emph{posições de memória}.
+
+\subsection*{atribuição (6)}
+
+Em \verb|soma = 0;| significa que a variável \emph{soma} está armazenando o valor $0$.
+
+\texttt{soma} $\leftarrow 0$
+
+\texttt{soma} $= 0$
+
+\newpage
+
+\subsection*{entrada e saída (7,8,15)}
+
+\verb|cin| é o comando de \emph{entrada}.
+
+\verb|cin >> numero;|
+
+\verb|cin >> numero >> soma;| - requer duas entradas.
+
+\
+
+\verb|cout| é o comando de \emph{saída}.
+
+\verb|cout << numero;|
+
+\verb|cout << numero << endl;|
+
+\verb|cout << "soma = " << soma << endl;|
+
+\begin{ex}[Dica]
+Ao invés de digitar
+
+\verb|12 <enter>|
+
+\verb|17 <enter>|
+
+você pode digitar
+
+\verb|12 17 <enter>|
+
+assim o programa executa os dois números na sequência. Então podemos escrever \verb|12 17 4 -6 8 0 <enter>| que toda a sequência de números será executada.
+\end{ex}
+
+\section{laço de repetição}
+
+\subsection{while (9)}
+
+\emph{while} significa \emph{enquanto}.
+
+\begin{lstlisting}
+while (condicao)
+{
+  /*comandos*/
+}
+\end{lstlisting}
+
+O \emph{while} é executado enquanto a \emph{condição} for \textbf{verdadeira}.
+
+\begin{lstlisting}
+    while (numero != 0)
+    {
+        soma = soma + numero;
+        cin >> numero;
+        cout << numero << endl;
+    }
+\end{lstlisting}
+
+\textbf{condições}
+
+\begin{center}
+\begin{tabular}{l|l}
+  condição & significado\\
+  \hline
+  a == b & $a = b$\\
+  a != b & $a \ne b$\\
+  a < b  & $a < b$\\
+  a <= b & $a \mei b$\\
+  a > b  & $a > b$\\
+  a >= b & $a \mai b$\\
+  a + b  & $a + b$\\
+  a - b  & $a - b$\\
+  a * b  & $a . b$\\
+  a / b  & $a / b$\\
+\end{tabular}
+\end{center}
+
+\subsection*{comentários}
+
+\verb|/*comentario*/|
+
+\begin{prob}\label{prob102.cpp}
+Dados os números inteiros $n$ e $k$ com $k \mai 0$, determinar $n^k$. Por exemplo, dados os números $3$ e $4$ o programa deve escrever o número $81$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, k, resultado, potencia;
+    cout << "Digite um numero:";
+    cin >> n;
+    cout << "Digite outro numero:";
+    cin >> k;
+    resultado = 1;
+    potencia = 0;
+    while (potencia < k)
+    {
+        resultado = resultado * n;
+        potencia = potencia + 1;
+    }
+    cout << resultado << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Outro modo:
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, k, resultado;
+    cout << "Digite um numero:";
+    cin >> n;
+    cout << "Digite outro numero:";
+    cin >> k;
+    resultado = 1;
+    while (k > 0)
+    {
+        resultado = resultado * n;
+        k = k - 1;
+    }
+    cout << resultado << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\newpage
+
+\begin{prob}\label{prob103.cpp}
+Dado um número inteiro $n \mai 0$, calcular $n!$.
+
+\begin{equation*}
+  n! =
+  \begin{cases}
+    1 		& \mbox{, se } n = 0 \\
+    n 		& \mbox{, se } n = 1 \\
+    n(n - 1)! 	& \mbox{, se } n > 1
+  \end{cases}
+\end{equation*}
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, resultado, i;
+    cout << "Digite um numero:";
+    cin >> n;
+    resultado = 1;
+    i = n;
+    while (i >= 1)
+    {
+        resultado = resultado*i;
+        i = i - 1;
+    }
+    cout << resultado << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Outro modo:
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, resultado;
+    cout << "Digite um numero:";
+    cin >> n;
+    resultado = 1;
+    while (n > 0)
+    {
+        resultado = resultado*n;
+        n = n - 1;
+    }
+    cout << resultado << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\newpage
+
+\begin{prob}\label{prob104.cpp}
+Dados um número inteiro $n \mai 0$, e uma sequência com $n$ inteiros, determinar a soma dos inteiros positivos da sequência. Por exemplo, para a sequência 6 -2 7 0 -5 8 4 o programa deve escrever o número 19.
+\end{prob}
+
+\begin{sol}
+
+Minha solução: prob04v2.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, numero, contador, soma;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    contador = 0;
+    soma = 0;
+    while (contador < n)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> numero;
+        if (numero > 0)
+        {
+            soma = soma + numero;
+        }
+        contador = contador + 1;
+    }
+    cout << "A soma dos inteiros positivos eh: " << soma << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Solução do prof.: prob04.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, numero, cont, soma;
+    cont = 0;
+    soma = 0;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    while (cont < n)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> numero;
+        /*
+            Neste caso, o while funciona como um
+            if desfarcado.
+        */
+        while (numero > 0)
+        {
+            soma = soma + numero;
+            /* Necessario, senao o while nao sera
+            testado de novo.*/
+            numero = 0;
+        }
+        cont = cont + 1;
+    }
+    cout << "A soma dos inteiros positivos eh: " << soma << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\section{if then else}
+
+Laço de decisão. \emph{if} significa \emph{se}, \emph{then} significa \emph{então} e \emph{else} significa \emph{senão}.
+
+\begin{lstlisting}
+if (condicao)
+{
+  /*comandos*/
+}
+else
+{
+  /*comandos*/
+}
+\end{lstlisting}
+
+\begin{prob}\label{prob105.cpp}
+Dados um número inteiro $n \mai 0$, e uma sequência com $n$ inteiros, determinar a soma dos inteiros positivos e a soma dos inteiros negativos da sequência. Por exemplo, para a sequência 6 -2 7 0 -5 8 4 o programa deve escrever o número 19 e -7.
+\end{prob}
+
+\begin{sol}
+
+\begin{lstlisting}
+#include <iostream>;
+using namespace std;
+int main()
+{
+    int n, i, numero, pos, neg;
+    i = 0;
+    pos = 0;
+    neg = 0;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    while (i < n)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> numero;
+        if (numero > 0)
+        {
+            pos = pos + numero;
+        }
+        else
+        {
+            neg = neg + numero;
+        }
+        i = i + 1;
+    }
+    cout << "A soma dos inteiros positivos eh: " << pos << endl;
+    cout << "A soma dos inteiros negativos eh: " << neg << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\section{Operadores}
+
+\begin{center}
+\begin{tabular}{l|l}
+  condição & significado\\
+  \hline
+  a + b  & $a + b$\\
+  a - b  & $a - b$\\
+  a * b  & $a . b$\\
+  a / b  & $a / b$\\
+  a \% b  & resto de $a / b$\\
+\end{tabular}
+\end{center}
+
+\begin{prob}\label{prob106.cpp}
+Dados um número inteiro $n \mai 0$, e uma sequência com $n$ inteiros, determinar quantos números da sequência são pares e quantos são ímpares. Por exemplo, para a sequência 6 -2 7 0 -5 8 4 o programa deve escrever o número 4 para o número de pares 2 para o número de ímpares.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, numero, par, impar;
+    i = 0;
+    par = 0;
+    impar = 0;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    while (i < n)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> numero;
+        if (numero % 2 == 0)
+        {
+            par = par + 1;
+        }
+        else
+        {
+            impar = impar + 1;
+        }
+        i = i + 1;
+    }
+    cout << "A sequencia possui " << par << " inteiros pares e " << impar << " inteiros impares." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\section{for}
+
+Laço de repetição com incremento. Como se fosse um contador.
+
+\begin{lstlisting}
+for (inicializacao; condicao; atualizacao)
+{
+  /*comandos*/
+}
+\end{lstlisting}
+
+Comparando com \emph{while}, temos:
+
+\begin{minipage}[t]{.45\textwidth}
+  \begin{lstlisting}
+i = 0;
+while (i < n)
+{
+  /*comandos*/
+  i = i + 1;
+}
+  \end{lstlisting}
+\end{minipage}
+\begin{minipage}[t]{.45\textwidth}
+  \begin{lstlisting}
+for (i = 0; i < n; i = i + 1)
+{
+  /*comandos*/
+}
+  \end{lstlisting}
+\end{minipage}
+
+\textbf{Nota}: \verb|i = i + 1| é equivalente a \verb|i++|.
+
+\begin{prob}\label{prob107.cpp}
+Dados um número inteiro $n \mai 0$, e uma sequência com $n$ inteiros, determinar o maior inteiro da sequência. Por exemplo, para a sequência 6 -2 7 0 -5 8 4 o programa deve escrever o número 8.
+\end{prob}
+
+\begin{sol}
+Minha solução
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, numero, maior;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    cout << "Digite o primeiro numero: ";
+    cin >> maior;
+    i = 1;
+    while (i < n)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> numero;
+        if (numero > maior)
+        {
+	  maior = numero;
+	}
+        i = i + 1;
+    }
+    cout << "O maior numero eh: " << maior << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Solução do prof.: prob07.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, numero, maior;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    maior = 0;
+    for (i = 0; i < n; i = i + 1)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> numero;
+        if (numero > maior)
+            maior = numero;
+    }
+    cout << "O maior numero eh: " << maior << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+Se você quiser que o usuário digite uma sequência somente com números positivos faça:
+
+\begin{lstlisting}
+do
+{
+  cout << "Digite numeros positivos.";
+  cin >> numero;
+} while (numero < 0)
+\end{lstlisting}
+
+%prob1extra01.cpp
+\begin{ex}[extra]\label{prob1extra01.cpp}
+Dados um número inteiro $n \mai 0$, e um digito $d$ $(0 <= d <= 9)$ determinar quantas vezes $d$ ocorre em $n$. Por exemplo, para $n = 63453$ e $d = 3$ o programa deve imprimir $2$.
+\end{ex}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, d, resto;
+    resto = 0;
+    cout << "Digite um numero: ";
+    cin >> n;
+    cout << "Digite um digito: ";
+    cin >> d;
+    while (n > 0)
+    {
+        if (n % 10 == d)
+        {
+            resto = resto + 1;
+        }
+        n = n / 10;
+    }
+    cout << "O numero " << d << " aparece "<< resto << " vezes."<< endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob108.cpp}
+Dados um número inteiro $n > 0$ e as notas de $n$ alunos, determinar quantos alunos ficaram de recuperação. Um aluno está de recuperação se sua nota estiver entre $30$ e $50$ (nota máxima $100$).
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, nota, rec;
+    cout << "Digite o numero de alunos: ";
+    cin >> n;
+    rec = 0;
+    for (i = 0; i < n; i = i + 1)
+    {
+        cout << "Digite as notas: ";
+        cin >> nota;
+        if (nota >= 30)
+        {
+            if (nota <= 50)
+            {
+                rec = rec + 1;
+            }
+        }
+    }
+    cout << rec << " alunos estao de recuperacao." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+Podemos substituir as linhas 13 à 19 por
+
+\begin{lstlisting}
+if (nota >= 30 && nota <= 50)
+{
+  rec = rec + 1;
+}
+\end{lstlisting}
+
+\noindent onde $\&\&$ é o operador \verb|e| lógico.
+
+\section{Operadores lógicos}
+
+\begin{center}
+\begin{tabular}{l|l}
+  \&\&  & \verb|e| \\
+  ||  & \verb|ou| \\
+  !  & não \\
+\end{tabular}
+\end{center}
+
+\begin{ex}
+\verb|if(!(nota <= 30))| é equivalente a \verb|if(nota > 30)|.
+\end{ex}
+
+\textbf{Obs}: Note a diferença entre \verb"(a && b) || c" e \verb"a && (b || c)".
+
+\begin{prob}\label{prob109.cpp}
+Dados um número inteiro $n > 0$ e uma sequência com $n$ números inteiros, verificar se a sequência está em ordem crescente.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, numero, anterior, crescente;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    crescente = 1;
+    cout << "Digite o primeiro numero: ";
+    cin >> anterior;
+    for (i = 1; i < n; i = i + 1)
+    {
+        cout << "Digite o proximo numero: ";
+        cin >> numero;
+        if (anterior >= numero)
+        {
+            crescente = 0;
+        }
+        anterior = numero;
+    }
+    if (crescente == 1)
+    {
+        cout << "A sequencia 'e crescente." << endl;
+    }
+    else
+    {
+        cout << "A sequencia nao 'e crescente." << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\section{Indicador de passagem}
+
+variável \verb|int|
+
+Com valor $0$ ou $1$.
+
+$0$: falso
+
+$1$: verdadeiro
+
+São variáveis lógicas ou booleanas.
+
+\begin{prob}\label{prob110.cpp}
+Dados números inteiros $n, i$ e $j$, todos maiores que zero, imprimir em ordem crescente os $n$ números naturais que são múltiplos de $i$ ou de $j$ ou ambos. Por exemplo, para $n = 6, i = 2$ e $j = 3$, a saída deverá ser: 0 2 3 4 6 8.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, j, atual, multiplos;
+    atual = multiplos = 0;
+    cout << "Digite o valor de n: ";
+    cin >> n;
+    cout << "Digite o valor de i: ";
+    cin >> i;
+    cout << "Digite o valor de j: ";
+    cin >> j;
+    while (multiplos < n)
+    {
+        if (atual % i == 0 || atual % j == 0)
+        {
+            multiplos = multiplos + 1;
+            cout << atual << " ";
+        }
+        atual = atual + 1;
+    }
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\subsection*{Notações para resumir o código}
+
+Podemos atribuir um valor direto na declaração da variável.
+
+\verb|int n, i, j, atual = 0, multiplos = 0;|
+
+Também podemos fazer atribuições múltiplas: \verb|i = j = t = 0;|
+
+\subsubsection*{Operações}
+
+\verb|i = i + 2;|
+
+\verb|i += 2;|
+
+\verb|i *= 2;|
+
+\verb|i /= 2;|
+
+\verb|i %= 2;|
+
+\verb|i++;| soma 1 unidade
+
+\verb|i--;| subtrai 1 unidade
+
+\newpage
+
+\textbf{Obs}: Seja \verb|int b, a = 3;|
+
+\begin{minipage}[t]{.45\textwidth}
+\begin{verbatim}
+b = a++;
+b = 3
+a = 4
+\end{verbatim}
+\end{minipage}
+\begin{minipage}[t]{.45\textwidth}
+\begin{verbatim}
+b = ++a;
+b = 4
+a = 4
+\end{verbatim}
+\end{minipage}
+
+\textbf{Dica}: Como estas notações são confusas é aconselhável que não se use em operações algébricas.
+
+\begin{prob}\label{prob111.cpp}
+Dado um número inteiro $n > 0$, verificar se $n$ é primo.
+\end{prob}
+
+\begin{sol}
+$n$ é primo se apenas $1$ e $n$ dividem $n$ ou equivalentemente, para todo $m \ne n (m \ne 1)$, $n \% m \ne \vz$.
+
+Minha solução: prob11v2.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, primo;
+    primo = 0;
+    cout << "Digite um numero: ";
+    cin >> n;
+    for (i = 1; i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            primo = primo + 1;
+        }
+    }
+    if (primo == 2)
+    {
+        cout << n << " 'e primo." << endl;
+    }
+    else
+    {
+        cout << n << " nao 'e primo." << endl;
+    }
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Solução do prof.: prob11.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, primo = 1;
+    cout << "Digite um numero: ";
+    cin >> n;
+    if (n == 1)
+    {
+        primo = 0;
+    }
+    for (i = 2; i < n; i++)
+    {
+        if (n % i == 0)
+        {
+            primo = 0;
+        }
+    }
+    if (primo == 1)
+    {
+        cout << n << " 'e primo." << endl;
+    }
+    else
+    {
+        cout << n << " nao 'e primo." << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\subsection{Declaração de constantes}
+
+Para definir nomes para valores constantes use
+
+\verb|#define <nome> <valor>|
+
+\begin{ex}
+Dois exemplos
+
+\verb|#define TRUE 1|
+
+\verb|#define FALSE 0|
+\end{ex}
+
+\section{Precedência de operadores}
+
+\begin{center}
+\begin{tabular}{c|l}
+  prioridade  & operador \\
+  \hline
+  1 & \verb|++, --, -| sinal \\
+  2 & \verb|*, /, %| \\
+  3 & \verb|+, -| \\
+  4 & \verb|<, <=, ==, !=, =, +=, -=, *=, /=, %=| \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{c|l}
+  prioridade  & operador \\
+  \hline
+  1 & \verb|!|  \\
+  2 & \verb|&&| \\
+  3 & \verb|||| \\
+\end{tabular}
+\end{center}
+
+\begin{prob}\label{prob112.cpp}
+Dado um número inteiro $n > 1$, imprimir sua decomposição em fatores primos, indicando também a multiplicidade de cada fator. Por exemplo, para $n = 600$, a saída deverá ser:
+
+\noindent fator 2 multiplicidade 3
+
+\noindent fator 3 multiplicidade 1
+
+\noindent fator 5 multiplicidade 2
+
+\noindent Note que $600 = 2^3.3^1.5^2$.
+\end{prob}
+
+\newpage
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, t, multiplicidade;
+    cout << "Digite um numero: ";
+    cin >> n;
+    t = n;
+    for (i = 2; i <= n; i++)
+    {
+        multiplicidade = 0;
+        while (t % i ==0)
+        {
+            t /= i;
+            multiplicidade ++;
+        }
+        if (multiplicidade > 0)
+            cout << "Fator " << i << " multiplicidade " << multiplicidade << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\begin{prob}\label{prob113.cpp}
+Dados um inteiro $n > 0$, e uma sequência com $n$ números inteiros maiores do que zero, determinar o máximo divisor comum entre eles. Por exemplo, para a sequência 3 42 30 105 o seu programa deve escrever o número 3.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main ()
+{
+    int n, i, numero, mdc, candidato;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    cin >> mdc;
+    for (i = 1; i < n; i++)
+    {
+        cin >> numero;
+        candidato = mdc;
+        while (mdc % candidato != 0 || numero % candidato != 0)
+            candidato --;
+        mdc = candidato;
+    }
+    cout << mdc << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+%prob1extra02.cpp
+\begin{ex}[extra]\label{prob1extra02.cpp}
+Dado um inteiro $n > 0$, e uma sequência com $n$ números inteiros maiores que zero, determinar o fatorial de cada número da sequência.
+\end{ex}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, j, numero, fat;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    for (i = 0; i < n; i++)
+    {
+        cin >> numero;
+        fat = 1;
+        for (j = 2; j <= numero; j++)
+            fat *= j;
+        cout << numero << "!= " << fat << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob114.cpp}
+Dados um inteiro $n > 0$, e uma sequência com $n$ inteiros, verificar se a sequência é uma progressão aritmética.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define TRUE 1
+#define FALSE 0
+
+using namespace std;
+int main()
+{
+    int n, i, anterior, atual, razao = 0, res = TRUE;
+    cout << "Digite o comprimento da sequencia: ";
+    cin >> n;
+    cin >> anterior;
+    if (n > 1)
+    {
+        cin >> atual;
+        razao = atual - anterior;
+    }
+    for (i = 2; i < n; i++)
+    {
+        anterior = atual;
+        cin >> atual;
+        if (atual - anterior != razao)
+            res = FALSE;
+    }
+    if (res) /*ou res = TRUE*/
+        cout << "'E uma P.A." << endl;
+    else
+        cout << "Nao 'e uma P.A." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob115.cpp}
+Sabe-se que cada número da forma $n^3$ é igual a soma de $n$ ímpares consecutivos. Exemplos:
+
+\[
+\begin{gathered}
+  1^3 = 1 \hfill \\
+  2^3 = 3 + 5 \hfill \\
+  3^3 = 7 + 9 + 11 \hfill \\
+  4^3 = 13 + 15 + 17 + 19 \hfill \\
+\end{gathered}
+\]
+
+Dado um inteiro $m > 0$, determinar os ímpares consecutivos cuja soma é igual a $n^3$, para $n$ assumindo valores de $1$ a $n$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int m, n, i, candidato, soma, termo;
+    cout << "Digite um numero: ";
+    cin >> m;
+    for (n = 1; n <= m; n++)
+    {
+        candidato = 1;
+        do
+        {
+            soma = 0;
+            termo = candidato;
+            for (i = 0; i < n; i++)
+            {
+                soma += termo;
+                termo += 2;
+            }
+            if (soma != n*n*n)
+                candidato += 2;
+        } while (soma != n*n*n);
+        cout << n << "^3 = ";
+        termo = candidato;
+        for (i = 0; i < n - 1; i++)
+        {
+            cout << termo << " + ";
+            termo += 2;
+        }
+        cout << termo << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+Uma segunda solução seria:
+
+%prob115v2.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int m, n, i, candidato, soma, termo;
+    cout << "Digite um numero: ";
+    cin >> m;
+    for (n = 1; n <= m; n++)
+    {
+        candidato = 1;
+        do
+        {
+            soma = 0;
+            termo = candidato;
+            soma = n * candidato + n * (n - 1);
+            if (soma != n*n*n)
+                candidato += 2;
+        } while (soma != n*n*n);
+        cout << n << "^3 = ";
+        termo = candidato;
+        for (i = 0; i < n - 1; i++)
+        {
+            cout << termo << " + ";
+            termo += 2;
+        }
+        cout << termo << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+Terceira solução: resolvendo a equação $n^3 = n*candidato + n(n - 1)$ obtemos $candidato = n^2 - n + 1$;
+
+%prob115v3.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int m, n, i, candidato, termo;
+    cout << "Digite um numero: ";
+    cin >> m;
+    for (n = 1; n <= m; n++)
+    {
+        candidato = n*n - n + 1;
+        cout << n << "^3 = ";
+        termo = candidato;
+        for (i = 0; i < n - 1; i++)
+        {
+            cout << termo << " + ";
+            termo += 2;
+        }
+        cout << termo << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\part{Números Reais}
+
+\chapter{Números Reais}
+
+\section{Lendo dados num arquivo externo}
+
+Podemos criar um arquivo externo, inserir os dados e fazer com que o \emph{terminal} leia os dados.
+
+Para isso crie um \emph{arquivo}, insira os dados nele separado com espaço e/ou quebra de linha.
+
+Ao executar o binário, digite, por exemplo \verb|./recebedados < arquivo|
+
+\section{Float}
+
+A variável \verb|float| representa os números reais.
+
+\begin{ex}
+\verb|float a = 1.53;|
+
+\verb|cin >> a;|
+
+\verb|cout << a;|
+\end{ex}
+
+\begin{prob}\label{prob201.cpp}
+Dadas $n > 0$ notas de prova, calcular a média aritmética das notas. As notas podem ser fracionárias.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i;
+    float nota, soma = 0.0;
+    cout << "Digite o numero de notas: ";
+    cin >> n;
+    for (i = 0; i < n; i++)
+    {
+        cout << "Digite as notas: ";
+        cin >> nota;
+        soma += nota;
+    }
+    cout << soma / n << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob202.cpp}
+Dado um inteiro $n > 0$, determinar o número harmônico $H_n$ dado por $H_n = 1 + \frac{1}{2} + \frac{1}{3} + \ldots  + \frac{1}{n}$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i;
+    float soma = 0.0;
+    cout << "Digite um numero: ";
+    cin >> n;
+    for (i = 1; i <= n; i++)
+    {
+        soma += 1.0/i;
+    }
+    cout << soma << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\section{Casting}
+
+Converte um tipo de dados para outro.
+
+\begin{ex}
+Transformando \verb|a| em \emph{int}: \verb|(int) a|
+\end{ex}
+
+Se \verb|a| for \emph{float}, então ele trunca o número (arredonda para baixo).
+
+\begin{ex}
+Considere dois inteiros e um float.
+
+\verb|int a, b;|
+
+\verb|float c;|
+
+\verb|c = (float) a/b;|
+\end{ex}
+
+\begin{prob}\label{prob203.cpp}
+Os pontos $(x,y)$ que pertencem à figura $H$ (abaixo) são tais que\\
+$x \mai 0, y \mai 0$ e $x^2 + y^2 \mei 1$.
+
+\tkzfigonly{fig02}
+
+Dados $n$ pontos reais $(x,y)$, verificar se cada ponto pertence ou não a $H$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i;
+    float x, y;
+    cout << "Digite um numero: ";
+    cin >> n;
+    for (i = 0; i < n; i++)
+    {
+        cin >> x >> y;
+        if (x >= 0 && y >= 0 && x*x + y*y <= 1)
+            cout << "Pertence a H." << endl;
+        else
+            cout << "Nao pertence a H." << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+%prob1extra03.cpp
+\begin{ex}[extra]
+Dado um inteiro $n \mai 0$, calcular o valor da soma\\
+$S_n = \frac{1}{n} + \frac{2}{n-1} + \frac{3}{n-2} + \ldots + \frac{n}{1}$.
+\end{ex}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, k;
+    float sn = 0.0;
+    cout << "Digite um numero: ";
+    cin >> n;
+    k = n;
+    for (i = 1; i <= n; i++)
+    {
+        sn = sn + (float)i / k;
+        k--;
+    }
+    cout << sn << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+%fibonacci.cpp
+\begin{ex}[Fibonacci]
+Dado um inteiro $n \mai 0$, determinar a sequencia de Fibonacci até $n$.
+\end{ex}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, aa = 0, a = 1, F;
+    cout << "Digite o numero de termos da sequencia de Fibonacci: ";
+    cin >> n;
+    cout << aa << " " << a << " ";
+    for (i = 0; i < n - 2; i++)
+    {
+        F = a + aa;
+        cout << F << " ";
+        aa = a;
+        a = F;
+    }
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob204.cpp}
+Dados números reais $x \mai 0$ e $\varepsilon > 0$, calcular uma aproximação da raiz quadrada de $x$ através da seguinte sequencia:
+
+\[
+\begin{gathered}
+  r_0 = x \hfill \\
+  r_{n + 1} = \frac{1}{2}\left( r_n + \frac{x}{r_n} \right) \hfill \\
+\end{gathered}
+\]
+
+A aproximação será o primeiro valor $r_{n + 1}$ tal que $|r_{n + 1} - r_n| < \varepsilon$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    float x, epsilon, atual, anterior;
+    cout << "Digite um numero: ";
+    cin >> x;
+    cout << "Digite um epsilon: ";
+    cin >> epsilon;
+    atual = x;
+    do
+    {
+        anterior = atual;
+        atual = 0.5 * (anterior + x / anterior);
+    } while (anterior - atual >= epsilon || atual - anterior >= epsilon);
+    cout << atual << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Uma segunda solução seria:
+
+%prob204v2.cpp
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    float x, epsilon, atual, anterior, diferenca;
+    cout << "Digite um numero: ";
+    cin >> x;
+    cout << "Digite um epsilon: ";
+    cin >> epsilon;
+    atual = x;
+    do
+    {
+        anterior = atual;
+        atual = 0.5 * (anterior + x / anterior);
+        diferenca = atual - anterior;
+        if(diferenca < 0)
+            diferenca = -diferenca; /*pega o modulo de diferenca*/
+    }while(diferenca >= epsilon);
+    cout << atual << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\begin{prob}\label{prob205.cpp}
+Dados números reais $x$ e $\varepsilon > 0$, calcular uma aproximação de $e^x$ através da seguinte série infinita:
+
+\[
+e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \ldots + \frac{x^k}{k!} + \ldots
+\]
+
+Inclua na aproximação todos os termos até o primeiro valor absoluto (módulo) menor do que $\varepsilon$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n = 0;
+    float x, epsilon, soma = 1.0, termo = 1.0;
+    cout << "Digite um numero: ";
+    cin >> x;
+    cout << "Digite um epsilon: ";
+    cin >> epsilon;
+    while ((termo > 0 && termo >= epsilon) || (termo < 0 && -termo >= epsilon))
+    {
+        n++;
+        termo *= x / n;
+        soma += termo;
+    }
+    cout << soma << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Note que
+
+\[
+\begin{gathered}
+  \frac{x^2}{2!} = \frac{x^1}{1!}.\frac{x}{2} \hfill \\
+  \frac{x^3}{3!} = \frac{x^2}{2!}.\frac{x}{3} \hfill \\
+\end{gathered}
+\]
+
+\end{sol}
+
+\section{Caracteres}
+
+\verb|char a;|
+
+\verb|a = 'c';|
+
+Maiúsculas e minúsculas são diferentes. \verb|'a' != 'A'|.
+
+\verb|cin >> a;|
+
+Lê um \verb|char| exceto espaços e/ou quebra de linha.
+
+\verb|cin >> noskipws >> a;| considera espaço
+
+\verb|'.', '!', '?', ' ', '1', 'n', '\n', '\t|
+
+\noindent onde \verb|'\n'| é a quebra de linha e \verb|'\t'| é a tabulação.
+
+\begin{prob}\label{prob206.cpp}
+Dada uma sequência de caracteres terminada por um ponto \verb|'.'| representando um texto, determinar a frequência relativa de vogais no texto. Por exemplo, no ``Em terra de cego quem tem um olho e caolho.'', essa frequência é $0.380952 (16/42)$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int vogais = 0, tamanho = 0;
+    char c;
+    cin >> noskipws >> c;
+    while (c != '.')
+    {
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
+            c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
+            vogais ++;
+        tamanho ++;
+        cin >> noskipws >> c;
+    }
+    cout << (float) vogais / tamanho << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob207.cpp}
+Dada uma frase terminada por \verb|'.'|, imprimir o comprimento da palavra mais longa.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int maior = 0, atual = 0;
+    char c;
+    cin >> noskipws >> c;
+    while (c != '.')
+    {
+        atual ++;
+        if (c == ' ')
+            atual = 0;
+        if (atual > maior)
+            maior = atual;
+        cin >> noskipws >> c;
+    }
+    cout << maior << endl;
+    return 0;
+}
+\end{lstlisting}
+
+Segunda solução: prob207v2.cpp
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int maior = 0, atual = 0;
+    char c;
+    cin >> noskipws >> c;
+    while (c != '.')
+    {
+        atual = 0;
+        while (c != ' ' && c != '.')
+        {
+            atual ++;
+            cin >> noskipws >> c;
+        }
+        if (atual > maior)
+            maior = atual;
+        if (c != '.')
+            cin >> noskipws >> c;
+    }
+    cout << maior << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{sol}
+
+\begin{prob}\label{prob208.cpp}
+Dada uma sequência de caracteres terminada por \verb|'.'|, determinar quantas letras minúsculas e maiúsculas aparecem na sequência.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int ma = 0, mi = 0;
+    char a;
+    cin >> noskipws >> a;
+    while (a != '.')
+    {
+        if (a >= 'a' && a <= 'z')
+            mi ++;
+        if (a >= 'A' && a <= 'Z')
+            ma ++;
+        cin >> noskipws >> a;
+    }
+    cout << "A frase tem "<< ma << " letras maiusculas." << endl;
+    cout << "e "<< mi << " letras minusculas." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\section{Funções}
+
+Funções são trechos de código que fazem alguma coisa.
+
+\verb|void f(int x, int y)|
+
+\begin{lstlisting}
+int funcao (int a, float b, char c)
+{
+  /* comandos */
+  return <valor>
+}
+\end{lstlisting}
+
+\verb|d = funcao(2,3.5,'b');|
+
+\begin{prob}\label{prob209.cpp}
+Dados dois números reais $x$ e $y$ e dois números inteiros positivos $a$ e $b$, calcular o valor de $x^a + y^b + (x - y)^{a + b}$ usando a função\\
+\verb|float potencia (float base, int expoente);|
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+float potencia (float base, int expoente)
+{
+    int i;
+    float mult = 1;
+    for (i = 0; i < expoente; i++)
+        mult *= base;
+    return mult;
+}
+
+/* Se a funcao estiver depois do int main */
+/* podemos chama-la com o comando a seguir: */
+/* float potencia (...); */
+int main()
+{
+    float x, y;
+    int a, b;
+    cin >> x >> y >> a >> b;
+    cout << potencia(x,a) + potencia(y,b) + potencia(x-y,a+b) << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob210.cpp}
+\begin{itemize}
+ \item Escreva uma função que recebe $n$ e devolve $n!$;
+ \item Faça uma função que recebe dois inteiros $m$ e $n$ e usando a função anterior calcula
+
+\[
+{m \choose n} = \frac{m!}{n!(m - n)!}
+\]
+
+  \item Faça um programa que lê um inteiro $n > 0$ e imprime os coeficientes da expansão de $(a + b)^n$. Lembrando que $(a + b)^n  = \sum\limits_{i = 0}^n {{n \choose i} a^i b^{n - i} }$.
+\end{itemize}
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int fatorial (int n)
+{
+    int mult = 1, i;
+    for (i = 1; i <= n; i++)
+        mult *= i;
+    return mult;
+}
+
+int combinacao (int m, int n)
+{
+    return fatorial(m) / (fatorial(n) * fatorial(m - n));
+}
+
+int main()
+{
+    float n, i;
+    cin >> n;
+    for (i = 0; i <= n; i++)
+        cout << combinacao(n,i) << " ";
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\section{Alterando o valor de uma variável}
+
+Quando chamamos uma função $f(a)$, mesmo que o valor da variável que recebe $a$ dentro de $f$ seja alterado, $a$ não é alterado na função onde $f$ foi chamada.
+
+Algumas vezes queremos alterar o valor da variável, para isso usamos \emph{ponteiros}.
+
+\textbf{OBS}: A função \verb|void| é uma função que não retorna nenhum valor.
+
+\begin{ex}
+Seja
+
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+void troca1 (int a, int b)
+{
+    int c;
+    c = a;
+    a = b;
+    b = c;
+}
+
+void troca2 (int *a, int *b)
+{
+    int c = *a;
+    *a = *b;
+    *b = c;
+}
+
+int main ()
+{
+    int a = 2, b = 3;
+    troca1(a,b);
+    cout << a << " " << b << endl;
+    troca2(&a,&b);
+    cout << a << " " << b << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{ex}
+
+\begin{prob}\label{prob211.cpp}
+Um número $a$ é dito ser permutação de um outro número $b$ se os digitos de $a$ formam uma permutação dos digitos de $b$. Exemplo, $5412434$ é uma permuta de $4321445$ mas não é uma permuta de $4312455$. Obs: Considere que o digito $0$ não aparece nos números.
+
+\begin{itemize}
+ \item Faça uma função \emph{contadigitos} que dados um inteiro $n$ e um inteiro\\ $d$, $0 \mei d \mei 9$, devolve quantas vezes $d$ aparece em $n$.
+ \item Usando a função do item anterior faça um programa que lê dois números $a$ e $b$ e responda se $a$ é permutação de $b$.
+\end{itemize}
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int contadigitos (int n, int d)
+{
+    int quant = 0;
+    while (n > 0)
+    {
+        if (n % 10 == d)
+            quant ++;
+        n /= 10;
+    }
+    return quant;
+}
+
+int main ()
+{
+    int a, b, i, perm = 1;
+    cout << "Entre com a e b: ";
+    cin >> a >> b;
+    for (i = 1; i <= 9; i++)
+    {
+        if (contadigitos(a,i) != contadigitos(b,i))
+            perm = 0;
+    }
+    if (perm)
+        cout << "'E permuta." << endl;
+    else
+        cout << "Nao 'e permuta." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob212.cpp}
+Dizemos que um inteiro positivo $n$ é \emph{perfeito} se for igual à soma de seus divisores positivos diferentes de $n$. Exemplo: 6 é perfeito, pois $1 + 2 + 3 = 6$. Faça um programa que verifica se um dado número inteiro positivo é perfeito.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n, i, perfeito = 0;
+    cout << "Digite um numero: " << endl;
+    cin >> n;
+    for (i = 1; i < n; i++)
+    {
+        if (n % i == 0)
+            perfeito += i;
+    }
+    if (perfeito == n)
+        cout << "'E perfeito." << endl;
+    else
+        cout << "Nao 'e perfeito." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob213.cpp}
+Dizemos que um número natural $n$ é palíndrome se lido da direita para a esquerda ou da esquerda para a direita é o mesmo número. Exemplo: $567765$ é palíndrome e $567675$ não é palíndrome.
+
+Escreva uma função que recebe um inteiro $n > 0$ e devolve o seu primeiro digito, seu último digito e altera o valor de $n$ removendo seu primeiro e último digitos.
+
+Exemplo:
+
+\begin{center}
+\begin{tabular}{cccc}
+valor inicial de $n$ & primeiro digito & último digito & valor final de $n$\\
+\hline
+14738 & 1 & 8 & 473\\
+78 & 7 & 8 & 0\\
+7 & 7 & 7 & 0
+\end{tabular}
+\end{center}
+
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define TRUE 1
+#define FALSE 0
+using namespace std;
+
+void encurta (int *n, int *primeiro, int *ultimo)
+{
+    int copia = *n, pot = 1;
+    *ultimo = copia % 10;
+    while (copia >= 10)
+    {
+        copia /= 10;
+        pot *= 10;
+    }
+    *primeiro = copia;
+    *n %= pot; /* ou *n = *n - *primeiro * pot; */
+    *n /= 10;
+}
+
+int main ()
+{
+    int n, primeiro, ultimo, palindrome = TRUE;
+    cout << "Digite um numero: " << endl;
+    cin >> n;
+    while (n > 0)
+    {
+        encurta (&n, &primeiro, &ultimo);
+        if (primeiro != ultimo)
+            palindrome = FALSE;
+    }
+    if (palindrome)
+        cout << "'E palindrome." << endl;
+    else
+        cout << "Nao 'e palindrome." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob214.cpp}
+Escreva uma função com protótipo\\
+ \verb|int divide (int *m, int *n, ind d)| que recebe três inteiros positivos como parâmetro e retorna $1$ se $d$ divide \emph{pelo menos um} entre \verb|*m| e \verb|*n| e $0$, caso contrário. Fora isso, se $d$ divide \verb|*m| então \verb|*m| é dividido (e o resultado é armazenado em \verb|*m|). Faça a mesma coisa para \verb|*n|.
+
+Escreva um programa que lê dois inteiros positivos $m$ e $n$ e calcula, usando a função acima, o \emph{mínimo múltiplo comum} entre $m$ e $n$.
+
+Exemplo: $3080 = 2^3.5.7.11$ e $1092 = 2^2.3.7.13$ resultado $= 2^3.3.5.7.11.13$
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define TRUE 1
+#define FALSE 0
+using namespace std;
+
+int divide (int *m, int *n, int d)
+{
+    int ok = 0;
+    if (*m % d == 0)
+    {
+        ok = 1;
+        *m /= d;
+    }
+    if (*n % d == 0)
+    {
+        ok = 1;
+        *n /= d;
+    }
+    return ok;
+}
+
+int main ()
+{
+    int m, n, d, mmc;
+    cout << "Digite dois numeros: " << endl;
+    cin >> m >> n;
+    d = 2;
+    mmc = 1;
+    while (m != 1 || n != 1)
+    {
+        if (divide (&m, &n, d))
+            mmc *= d;
+        else
+            d++;
+    }
+    cout << mmc << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\newpage
+
+\begin{prob}\label{prob215.cpp}
+Escreva uma função com protótipo\\
+\verb|void converte (char ch, int *tipo, char *valor)| que recebe um caractere \verb|ch| e devolve em \verb|*tipo|:
+
+$0$ se o caractere for um número,\\
+$1$ se o caractere for uma letra e\\
+$2$, caso contrário.
+
+Além disso, no caso de ser uma letra, converte para maiúscula e coloca em \verb|*valor| e se não for uma letra coloca \verb|ch| inalterado em \verb|*valor|. Escreva um programa que lê uma frase terminada por \verb|'.'|, e imprime apenas os números e letras da frase. Converta as letras para maiúscula antes de imprimir.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+void converte (char ch, int *tipo, char *valor)
+{
+    *valor = ch;
+    if (ch >= '0' && ch <= '9')
+        *tipo = 0;
+    else if (ch >= 'a' && ch <= 'z')
+    {
+        *tipo = 1;
+        *valor = ch - 'a' + 'A';
+    }
+    else if (ch >= 'A' && ch <= 'Z')
+        *tipo = 1;
+    else
+        *tipo = 2;
+}
+
+int main ()
+{
+    char c, valor;
+    int tipo;
+    do
+    {
+        cin >> noskipws >> c;
+        converte (c, &tipo, &valor);
+        if (tipo != 2)
+            cout << valor;
+    } while (c != '.');
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\newpage
+
+\begin{prob}\label{prob216.cpp}
+Escreva uma função que decomponha um número em sua parte inteira e sua parte fracionária. A entrada da função é um número real $x$ e a saída é um número inteiro e um número real com os valores da parte inteira e da parte fracionária de $x$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+void decompoe (float x, int *xint, float *xfrac)
+{
+    *xint = (int) x;
+    *xfrac = x - *xint;
+}
+
+int main ()
+{
+    float b, x;
+    int a;
+    cout << "Digite um numero: " << endl;
+    cin >> x;
+    decompoe(x, &a, &b);
+    cout << a << endl;
+    cout << b << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob217.cpp}
+Escreva uma função que transforma um intervalo de tempo dado em segundos para dias, horas, minutos e segundos. A entrada da função é um inteiro $t$ com o valor de um intervalo de tempo em segundos. A saída da função são $4$ inteiros com os valores de dias, horas, minutos e segundos, correspondentes ao valor de $t$.
+
+Exemplo:
+
+para $t = 100\ 000$ a saída será 1 (dia), 3 (horas), 46 (minutos) e 40 (segundos).
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+void converte (int t, int *dias, int *horas, int *minutos, int *segundos)
+{
+    *segundos = t % 60;
+    t /= 60;
+    *minutos = t % 60;
+    t /= 60;
+    *horas = t % 24;
+    t /= 24;
+    *dias = t;
+}
+
+int main ()
+{
+    int t, dias, horas, minutos, segundos;
+    cout << "Digite um intervalo de tempo em segundos: " << endl;
+    cin >> t;
+    converte (t, &dias, &horas, &minutos, &segundos);
+    cout << dias << " dia(s), " << horas << " hora(s), " << minutos << " minuto(s), " << segundos << " segundo(s)."<< endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\part{Vetores}
+
+\chapter{Vetores}
+
+Um \emph{vetor} é um tipo especial de variável que armazena muitas informações de um mesmo tipo. Por exemplo, \verb|int v[10];| significa que \verb|v[0], v[1], ... v[9]| são ``variáveis'' inteiras.
+
+\begin{center}
+\tikzset{every node/.style=draw,minimum height=5mm,minimum width=5mm,node distance=5mm}
+\begin{tikzpicture}[>=latex]
+\node (n1) {0};
+\node[right of = n1] (n2) {1};
+\node[right of = n2] (n3) {2};
+\node[right of = n3] (n4) {3};
+\node[right of = n4] (n5) {4};
+\node[right of = n5] (n6) {5};
+\node[right of = n6] (n7) {6};
+\node[right of = n7] (n8) {7};
+\node[right of = n8] (n9) {8};
+\node[right of = n9] {9};
+\end{tikzpicture}
+\end{center}
+
+Para declarar um vetor podemos usar apenas números (nunca variáveis). É útil usar constante (\verb|#define|).
+
+\verb|int v[MAX];|
+
+\begin{ex}
+Considere
+
+\begin{lstlisting}
+int v[10];
+v[7] = 153;
+v[2] = 7;
+cout << v[2] + v[7] << endl;
+\end{lstlisting}
+\end{ex}
+
+Só podemos atribuir um valor por vez no vetor, então podemos escrever com um laço.
+
+\begin{ex}
+Considere
+
+\begin{lstlisting}
+int n, v[MAX], i;
+cin >> n;
+for (i = 0; i <= n; i++)
+    cin >> v[i];
+\end{lstlisting}
+\end{ex}
+
+\textbf{Obs}: Para ``zerar'' tudo faça: \verb|v[i] = 0;|
+
+\begin{prob}\label{prob301.cpp}
+Dados $n > 0$ números inteiros, imprimi-los na ordem inversa de leitura.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 1000
+using namespace std;
+int main()
+{
+    int n, i, v[MAX];
+    cout << "Digite um numero: ";
+    cin >> n;
+    for (i = 0; i < n; i++)
+        cin >> v[i];
+    for (i = n - 1; i >= 0; i--)
+        cout << v[i] << " ";
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob302.cpp}
+Dados $n > 0$ lançamentos de uma roleta (números entre $0$ e $36$), calcular a frequência de cada número.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 37
+using namespace std;
+int main()
+{
+    int n, i, numero, histograma[MAX];
+    cout << "Digite um numero: ";
+    cin >> n;
+    for (i = 0; i < MAX; i++)
+        histograma[i] = 0;
+    for (i = 0; i < n; i++)
+    {
+        cin >> numero;
+        histograma[numero] ++;
+    }
+    for (i = 0; i < MAX; i++)
+        cout << "Frequencia de " << i << " = " << histograma[i] << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob303.cpp}
+Dados dois números naturais $m$ e $n$ e duas sequências ordenadas. Com $m > 0$ e $n > 0$ números inteiros, obter uma única sequência ordenada contendo todos os elementos das sequências originais sem repetição.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 1000
+using namespace std;
+int main()
+{
+    int m, n, i, j, vetorm[MAX], vetorn[MAX];
+    cout << "Digite dois numeros: ";
+    cin >> m >> n;
+    for (i = 0; i < m; i++)
+        cin >> vetorm[i];
+    for (i = 0; i < n; i++)
+        cin >> vetorn[i];
+    i = j = 0;
+    while (m > i && n > j)
+    {
+        if (vetorm[i] < vetorn[j])
+        {
+            cout << vetorm[i] << " ";
+            i++;
+        }
+        else if (vetorm[i] == vetorn[j])
+        {
+            cout << vetorm[i] << " ";
+            i++;
+            j++;
+        }
+        else
+        {
+            cout << vetorn[j] << " ";
+            j++;
+        }
+    }
+    while (i < m)
+    {
+        cout << vetorm[i] << " ";
+        i++;
+    }
+    while (j < n)
+    {
+        cout << vetorn[j] << " ";
+        j++;
+    }
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob304.cpp}
+\begin{enumerate}[a)]
+ \item Escreva uma função com protótipo\\
+\verb|int acha(float v[MAX], int n, float x)| que devolve a posição em que o número real $x$ ocorre no vetor $v$ ou devolve $-1$ se $x$ não aparece no vetor. O número de elementos do vetor é $n$.
+  \item Escreva uma função com protótipo\\
+\verb|void insere(float v[MAX], inr *n, float x)| que insere $x$ na última posição do vetor $v$ e altera o valor de $*n$.
+  \item Dada uma sequência de $n$ números reais, imprimi-la eliminando as repetições.
+\end{enumerate}
+
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 100
+using namespace std;
+
+int acha(float v[MAX], int n, float x)
+{
+    int i;
+    for (i = 0; i < n; i++)
+    {
+        if (v[i] == x)
+            return i;
+    }
+    return -1;
+}
+
+void insere(float v[MAX], int *n, float x)
+{
+    v[*n] = x;
+    (*n)++;
+}
+
+int main()
+{
+    int n, i, t = 0;
+    float atual, seq[MAX];
+    cout << "Digite um numero: ";
+    cin >> n;
+    for (i = 0; i < n; i++)
+    {
+        cin >> atual;
+        if (acha(seq,t,atual) == -1)
+            insere(seq,&t,atual);
+    }
+    for (i = 0; i < t; i++)
+        cout << seq[i] << " ";
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob305.cpp}
+\begin{enumerate}[a)]
+ \item Escreva uma função que recebe um inteiro positivo $k$ e um vetor com os $k + 1$ coeficientes reais de um polinômio de grau $k$ e outro real $x$ e devolve o valor do polinômio no ponto $x$. Considere que o coeficiente de $x^i$ está guardado na posição $i$ do vetor.
+
+Um polinômio $p(x)$ de grau $k$ é dado por
+
+\[
+p(x) = a_0 + a_1 x + a_2 x^2 + a_3 x^3 + \ldots + a_k x^k
+\]
+
+  \item Escreva uma função que recebe como parâmetro um inteiro não-negativo $k$ e um vetor $p$ com os $k + 1$ coeficientes reais de um polinômio de grau $k$ e altera $k$ e $p$ de modo que eles passem a armazenar o grau e o coeficiente da \emph{derivada}  do polinômio $p$.
+
+A derivada de um polinômio $p(x)$ de grau $k$ é dada por
+
+\[
+p'(x) = a_1 + 2 a_2 x + 3 a_3 x^2 + \ldots + k a_k x^{k-1}
+\]
+
+  \item Escreva um programa que leia um inteiro não-negativo $k$ e os $k + 1$ coeficientes reais de um polinômio $p_0$ de grau $k$ e calcula $p_0 (x_0), p_1 (x_1), p_2 (x_2)$ onde $p_1$ e $p_2$ são respectivamente a primeira e a segunda derivada do polinômio $p_0$.
+
+\end{enumerate}
+
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 1000
+using namespace std;
+
+float calcula_poli(int k, float coef[MAX], float x)
+{
+    float pot = 1, soma = 0;
+    int i;
+    for (i = 0; i <= k; i++)
+    {
+        soma += coef[i] * pot;
+        pot *= x;
+    }
+    return soma;
+}
+
+void derivada(int *k, float coef[MAX])
+{
+    int i;
+    for (i = 0; i < *k; i++)
+        coef[i] = (i + 1) * coef[i + 1];
+    (*k)--;
+}
+
+int main()
+{
+    int k, i;
+    float coef[MAX], x0, x1, x2;
+    cout << "Digite o grau do polinomio: ";
+    cin >> k;
+    cout << "Digite os coeficientes: ";
+    for (i = 0; i <= k; i++)
+        cin >> coef[i];
+    cout << "Digite os valores de x: ";
+    cin >> x0 >> x1 >> x2;
+    cout << calcula_poli(k,coef,x0) << endl;
+    derivada(&k,coef);
+    cout << calcula_poli(k,coef,x1) << endl;
+    derivada(&k,coef);
+    cout << calcula_poli(k,coef,x2) << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\chapter{Matriz}
+
+\begin{center}
+  \tkzfigonly{fig03}
+\end{center}
+
+\begin{prob}\label{prob306.cpp}
+Dado $n$ e uma matriz real $A_{n \times n}$ verificar se $A$ é simétrica.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 100
+#define TRUE 1
+#define FALSE 0
+using namespace std;
+
+int main()
+{
+    float A[MAX][MAX];
+    int n, i, j, simetrica = TRUE;
+    cout << "Digite a ordem da matriz quadrada: ";
+    cin >> n;
+    cout << "Digite as entradas da matriz: ";
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+            cin >> A[i][j];
+    }
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            if (A[i][j] != A[j][i])
+                simetrica = FALSE;
+        }
+    }
+    if (simetrica)
+        cout << "Simetrica." << endl;
+    else
+        cout << "Nao simetrica." << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob307.cpp}
+Imprimir as $n$ primeiras linhas do triângulo de Pascal.
+
+\[
+\begin{array}{*{20}c}
+   1 & 1 & {} & {} & {} & {}  \\
+   1 & 2 & 1 & {} & {} & {}  \\
+   1 & 3 & 3 & 1 & {} & {}  \\
+   1 & 4 & 6 & 4 & 1 & {}  \\
+   1 & 5 & {10} & {10} & 5 & 1  \\
+ \end{array}
+\]
+
+
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 100
+using namespace std;
+int main()
+{
+    int A[MAX][MAX], n, linha, coluna;
+    cout << "Digite um numero: ";
+    cin >> n;
+    A[0][0] = A[0][1]=1;
+    for (linha = 1; linha < n; linha ++)
+    {
+        for (coluna = 0; coluna <= linha + 1; coluna ++)
+        {
+            if (coluna == 0)
+                A[linha][coluna] = A[linha - 1][coluna];
+            else if (coluna == linha + 1)
+                A[linha][coluna] = A[linha - 1][coluna - 1];
+            else
+                A[linha][coluna] = A[linha - 1][coluna] + A[linha - 1][coluna - 1];
+        }
+    }
+    for (linha = 0; linha < n; linha ++)
+    {
+        for (coluna = 0; coluna <= linha + 1; coluna ++)
+            cout << A[linha][coluna] << " ";
+        cout << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob308.cpp}
+Escreva um programa que, dadas duas matrizes $A_{m \times n}$ e $B_{n \times p}$, calcula a matriz $C_{m \times p}$ que é o produto de $A$ por $B$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob309.cpp}
+\begin{enumerate}[a)]
+ \item Escreva uma função que recebe como parâmetros uma matriz inteira $A_{n \times m}$ e uma posição $(i,j)$ da matriz, e conta quantas posições ao redor da posição $(i,j)$ contém o valor $-1$.
+ \item Escreva um programa que lê uma matriz $A_{n \times m}$ de $0$'s (posições livres) e $-1$'s (minas). Utilizando a função do item anterior, o programa deve computar e imprimir a quantidade de minas ao redor de cada posição livre da matriz.
+\end{enumerate}
+
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 100
+using namespace std;
+
+int conta(int A[MAX][MAX], int n, int m, int i, int j)
+{
+    int soma = 0, l, k;
+    for (l = i - 1; l <= i + 1;l++)
+    {
+        for (k = j - 1; k <= j + 1; k++)
+            if (!(l == i && k == j) && A[l][k] == -1)
+                soma ++;
+    }
+    return soma;
+}
+
+int main()
+{
+    int m, n, i, j, A[MAX][MAX];
+    cout << "Digite dois numeros: ";
+    cin >> n >> m;
+    // moldura da matriz
+    for (i = 0; i <= n + 1; i++)
+        A[i][0] = A[i][m+1] = 0;
+    for (j = 0; j <= m + 1; j++)
+        A[0][j] = A[m+1][j]=0;
+    // lendo a matriz
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= m; j++)
+            cin >> A[i][j];
+    cout << endl;
+    for (i = 1; i <= n; i++)
+    {
+        for (j = 1; j <= m; j++)
+            if (A[i][j] != -1)
+                cout << conta(A,n,m,i,j) << " ";
+            else
+                cout << -1 << " ";
+            cout << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob310.cpp}
+\begin{enumerate}[a)]
+ \item Escreva uma função que recebe como parâmetro uma matriz real $A_{n \times m}$ e uma posição $(i,j)$ da matriz e calcula a média aritmética dos vizinhos de $(i,j)$, ou seja, a média entre $A[i-1][j], A[i+1][j], A[i][j-1]$ e $A[i][j+1]$. Desconsidere os vizinhos que não pertencem a matriz. Por exemplo, os vizinhos de $(0,0)$ são somente $(0,1)$ e $(1,0)$.
+ \item Escreva uma função que recebe como parâmetro uma matriz real $A_{n \times m}$ e devolve uma matriz $A_\text{m\'edia}$, onde $A_\text{m\'edia} [i][j]$ é a média aritmética dos vizinhos de $(i,j)$. Para isso, utilize a função do item anterior.
+ \item Escreva um programa que lê uma matriz real $A_{n \times m}$ e um número inteiro $k$; utilizando a função do item anterior, o programa deve transformar a matriz $k$ vezes, imprimindo a matriz inicial e depois de cada transformação.
+\end{enumerate}
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 100
+using namespace std;
+
+float media(float A[MAX][MAX], itn n, int m, int i, int j)
+{
+  float soma = 0;
+  int qtde = 0;
+  if(i - 1 >= 0)
+  {
+    soma += A[i-1][j];
+    qtde ++;
+  }
+  if(j - 1 >= 0)
+  {
+    soma += A[i][j-1];
+    qtde ++;
+  }
+  if(i + 1 < n)
+  {
+    soma += A[i+1][j];
+    qtde ++;
+  }
+  if(j + 1 < m)
+  {
+    soma += A[i][j+1];
+    qtde ++;
+  }
+  return soma/qtde;
+}
+
+void matriz_media(float A[MAX][MAX], int n, int m, float B[MAX][MAX])
+{
+  int i, j;
+  for(i = 0; i < n; i++)
+    for(j = 0; j < m; j++)
+      B[i][j] = media(A,n,m,i,j);
+}
+
+void imprime(float A[MAX][MAX], int n, int m)
+{
+  int i,j;
+  for(i = 0; i < n; i++)
+  {
+    for(j = 0; j < m; j++)
+      cout << A[i][j] << " ";
+    cout << endl;
+  }
+}
+
+int main()
+{
+  int n, m, i, j, k, r;
+  float A[MAX][MAX], B[MAX][MAX];
+  cin >> n >> m;
+  for(i = 0; i < n; i++)
+    for(j = 0; j < m; j++)
+      cin >> A[i][j];
+  imprime(A,n,m);
+  for(r = 0; r < k; r++)
+  {
+    if(r % 2 == 0)
+    {
+      matriz_media(A,n,m,B);
+      imprime(B,n,m);
+    }
+    else
+    {
+      matriz_media(B,n,m,A);
+      imprime(A,n,m);
+    }
+  }
+  return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob311.cpp}
+Escreva uma função que recebe um vetor real $v$, cujos elementos estão ordenadaos em ordem não-decrescente, um inteiro $n$ que indica o tamanho do vetor e um real $r$, e devolva a posição onde $r$ ocorre no vetor. Se a função não encontrar $r$, devolva $-1$.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+int buscasimples(float v[MAX], int n, float r)
+{
+  int i;
+  for(i = 0; i < n; i++)
+  {
+    if(v[i] == r)
+      return i;
+  }
+  return -1;
+}
+\end{lstlisting}
+
+Busca binária. Localiza o meio do vetor e descarta o trecho que não interessa.
+
+\begin{lstlisting}
+int buscabinaria(float v[MAX], int n, float r)
+{
+  int meio;
+  int inicio = 0, fim = n;
+  while(inicial < fim)
+  {
+    meio = (inicio + fim)/2;
+    if(v[meio] == r)
+      return meio;
+    if(v[meio] < r)
+      inicio = meio + 1;
+    else
+      fim = meio;
+  }
+  return -1;
+}
+\end{lstlisting}
+\end{sol}
+
+\newpage
+
+\begin{prob}\label{prob312.cpp}
+Escreva uma função que recebe um vetor real $v$ e um inteiro $n$ com o tamanho do vetor, e devolve o vetor ordenado em ordem crescente.
+\end{prob}
+
+\begin{sol}
+Existem pelo menos três métodos de seleção:
+
+\begin{itemize}
+ \item selection sort
+ \item insertion sort
+ \item bubble sort
+\end{itemize}
+
+\textbf{selection sort}
+
+\begin{lstlisting}
+//selection sort
+int max(float v[MAX], int n)
+{
+    int i, m = v[0], imaior = 0;
+    for (i = 1; i < n; i++)
+    {
+        if (m < v[i])
+        {
+            m = v[i];
+            imaior = i;
+        }
+    }
+    return imaior;
+}
+
+void selecao(float v[MAX], int n)
+{
+    int maior, aux;
+    while (n > 1)
+    {
+        maior = max(v,n);
+        aux = v[n-1];
+        v[n-1] = v[maior];
+        v[maior] = aux;
+        n--;
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\textbf{insertion sort}
+
+\begin{lstlisting}
+//insertion sort
+void insercao(float v[MAX], int n)
+{
+    int i, j, aux;
+    for (i = 1; i < n; i++)
+    {
+        j = i;
+        while (j > 0 && v[j] < v[j-1])
+        {
+            aux = v[j-1];
+            v[j-1] = v[j];
+            v[j] = aux;
+            j--;
+        }
+    }
+}
+\end{lstlisting}
+
+\textbf{buble sort}
+
+\begin{lstlisting}
+//bubble sort
+void bolha(float v[MAX], int n)
+{
+    int i, aux, trocou = TRUE;
+    while (trocou)
+    {
+        trocou = FALSE;
+        for (i = 0; i < n - 1; i++)
+        {
+            if (v[i] > v[i+1])
+            {
+                aux = v[i+1];
+                v[i+1] = v[i];
+                v[i] = aux;
+                trocou = TRUE;
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}
+//buble sort2
+void bolha2(float v[MAX], int n)
+{
+    int i, aux, j;
+    for (j = 0; j < n; j++)
+    {
+        for (i = 0; i < n - 1; i++)
+        {
+            if (v[i] > v[i+1])
+            {
+                aux = v[i+1];
+                v[i+1] = v[i];
+                v[i] = aux;
+            }
+        }
+    }
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob313.cpp}
+\begin{enumerate}[a)]
+ \item Escreva uma função que recebe como parâmetros:
+
+ \begin{itemize}
+  \item dois inteiros positivos $n$ e $m$;
+  \item uma matriz $A_{n \times m}$;
+  \item o índice $c$ de uma coluna;
+  \item os índices $k$ e $p$ de duas linhas;
+ \end{itemize}
+  e ordena entre as linhas $k$ e $p$ da matriz $A$ segundo a coluna $c$.
+
+  \item Dados $n$ datas em uma matriz $DATA_{N \times 3}$, onde a primeira coluna corresponde ao dia, a segunda ao mês e a terceira ao ano, coloque essas datas em ordem cronológica crescente, usando a função acima.
+\end{enumerate}
+
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define TRUE 1
+#define FALSE 0
+#define MAX 100
+using namespace std;
+
+//bubble sort
+void bolha_matriz(int n, int m, int A[MAX][MAX], int c, int k, int p)
+{
+    int i, j, aux, trocou = TRUE;
+    while (trocou)
+    {
+        trocou = FALSE;
+        for (i = k; i < p; i++)
+        {
+            if (A[i][c] > A[i+1][c])
+            {
+                for (j = 0; j < m; j++)
+                {
+                    aux = A[i+1][j];
+                    A[i+1][j] = A[i][j];
+                    A[i][j] = aux;
+                }
+                trocou = TRUE;
+            }
+        }
+    }
+}
+
+int main ()
+{
+    int DATA[MAX][MAX], n, i;
+    cin >> n;
+    for (i = 0; i < n; i++)
+        cin >> DATA[i][0] >> DATA[i][1] >> DATA[i][2];
+    bolha_matriz(n,3,DATA,0,0,n-1);
+    bolha_matriz(n,3,DATA,1,0,n-1);
+    bolha_matriz(n,3,DATA,2,0,n-1);
+    cout << endl;
+    for (i = 0; i < n; i++)
+        cout << DATA[i][0] << " " << DATA[i][1] << " " << DATA[i][2] << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob314.cpp}
+Escreva um programa que leia
+
+\begin{itemize}
+ \item um inteiro $k > 0$;
+ \item $k$ pares de números inteiros que indicam as posições (ou seja, a linha e a coluna) de $k$ rainhas em um tabuleiro de xadrez;
+ \item um inteiro $n > 0$, e
+ \item $n$ pares de números inteiros indicando posições no tabuleiro.
+\end{itemize}
+
+e para cada uma das $n$ posições determinar se ela está ou não sob ataque de alguma rainha.
+
+Para resolver este problema:
+
+\begin{enumerate}[a)]
+ \item Escreva uma função de protótipo\\
+\verb|void inicializa_tabuleiro(char tab[MAX][MAX])| que inicializa a matriz \verb|tab| com todas as posições vazias.
+  \item Escreva uma função de protótipo\\
+\verb|void imprima_tabuleiro(char tab[MAX][MAX])| que imprime o tabuleiro.
+  \item Escreva uma função de protótipo\\
+\verb|int atacada(char tab[MAX][MAX], int linha, int coluna,|\\
+\verb|int *linha_r, int *coluna_r)| que devolve $1$ se a posição \verb|(linha,coluna)| está sendo atacada por alguma rainha representada pela letra R no tabuleiro \verb|tab| e devolve $0$ caso contrário.
+
+Se a posição estiver sendo atacada, então \verb|(*linha_r,*coluna_r)| devolve a posição de uma rainha que ataca essa posição.
+\end{enumerate}
+
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <iostream>
+#define MAX 8
+using namespace std;
+
+void inicializa_tabuleiro(char tab[MAX][MAX])
+{
+    int i, j;
+    for (i = 0; i < MAX; i++)
+    {
+        for (j = 0; j < MAX; j++)
+            tab[i][j] = '-';
+    }
+}
+
+void imprima_tabuleiro(char tab[MAX][MAX])
+{
+    int i, j;
+    for (i = 0; i < MAX; i++)
+    {
+        for (j = 0; j < MAX; j++)
+            cout << tab[i][j];
+        cout << endl;
+    }
+}
+
+int atacada(char tab[MAX][MAX], int linha, int coluna, int *linha_r, int *coluna_r)
+{
+    int i, j, d1, d2;
+    d1 = linha - coluna;
+    d2 = linha + coluna;
+    for (i = 0; i < MAX; i++)
+    {
+        if (tab[linha][i] == 'R')
+        {
+            *linha_r = linha;
+            *coluna_r = i;
+            return 1;
+        }
+        if (tab[i][coluna] == 'R')
+        {
+            *linha_r = i;
+            *coluna_r = coluna;
+            return 1;
+        }
+        j = i - d1;
+        if (j >= 0 && j < MAX && tab[i][j] == 'R')
+        {
+            *linha_r = i;
+            *coluna_r = j;
+            return 1;
+        }
+        j = d2 - i;
+        if (j >= 0 && j < MAX && tab[i][j] == 'R')
+        {
+            *linha_r = i;
+            *coluna_r = j;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    int n, i, k, l, c, rl, rc;
+    char tab[MAX][MAX];
+    inicializa_tabuleiro(tab);
+    cout << "Digite o numero de rainhas: ";
+    cin >> k;
+    for (i = 0; i < k; i++)
+    {
+        cout << "Digite a posicao da rainha: ";
+        cin >> l >> c;
+        tab[l][c] = 'R';
+    }
+    imprima_tabuleiro(tab);
+    cout << "Digite o numero de posicoes que podem ser atacadas: ";
+    cin >> n;
+    for (i = 0; i < n; i++)
+    {
+        cout << "Digite essas posicoes: ";
+        cin >> l >> c;
+        if (atacada(tab,l,c,&rl,&rc))
+            cout << "Atacada por (" << rl << "," << rc << ")." << endl;
+        else
+            cout << "Nao atacada." << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+
+\newpage
+
+\section{string}
+
+\emph{string} é uma sequência de caracteres terminada por \verb|\0|.
+
+\begin{prob}\label{prob315.c}
+Dada uma \emph{string} contar o número de ocorrência de cada letra do alfabeto.
+\end{prob}
+
+\begin{sol}
+\begin{lstlisting}
+#include <stdio.h>
+#define MAX 100
+
+int main ()
+{
+    char string[MAX], c;
+    int histograma[26], i, pos;
+    printf("Digite uma sequencia de caracteres:\n");
+    fgets(string,MAX,stdin);
+    for (i = 0; i < 26; i++)
+        histograma[i] = 0;
+    for (i = 0; string[i] != '\0'; i++)
+    {
+        if (string[i] >= 'A' && string[i] <= 'Z')
+            string[i] = string[i] - 'A' + 'a';
+        if (string[i] >= 'a' && string[i] <= 'z')
+        {
+            pos = string[i] - 'a';
+            histograma[pos]++;
+        }
+    }
+    for (c = 'a'; c <= 'z'; c++)
+    {
+        pos = c - 'a';
+        printf("%c %d\n",c,histograma[pos]);
+    }
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\begin{prob}\label{prob316.c}
+\begin{enumerate}[a)]
+ \item Dado um vetor real $x$ com $n$ elementos e um certo índice $k$, escreva uma função que determina o índice do elemento mínimo entre $x[k]$ e $x[n-1]$.
+ \item Usando a função do item anterior coloque os elementos de um vetor em ordem crescente.
+\end{enumerate}
+
+\end{prob}
+
+\newpage
+
+\begin{sol}
+\begin{lstlisting}
+#include <stdio.h>
+#define MAX 100
+
+int min(float X[MAX], int n, int k)
+{
+    int min, imin, i;
+    min = X[k]; /* ou tire essa linha */
+    imin = k;
+    for (i = k + 1; i < n; i++)
+        if (min > X[i]) /* ou (X[imin] > X[i]) */
+        {
+            min = X[i]; /* tire essa linha */
+            imin = i;
+        }
+    return imin;
+}
+
+void ordena(float X[MAX], int n)
+{
+    int i, menor, aux;
+    for (i = 0; i < n; i++)
+    {
+        menor = min(X,n,i);
+        aux = X[menor];
+        X[menor] = X[i];
+        X[i] = aux;
+    }
+}
+
+int main()
+{
+    int n, i;
+    float X[MAX];
+    printf("Digite o tamanho da sequencia: ");
+    scanf("%d",&n);
+    printf("Digite os valores: ");
+    for (i = 0; i < n; i++)
+        scanf("%f",&X[i]);
+    ordena(X,n);
+    for (i = 0; i < n; i++)
+        printf("%f ",X[i]);
+    printf("\n");
+    return 0;
+}
+\end{lstlisting}
+\end{sol}
+
+\include{apendice}
+
+%*******************************************************
+\bibliographystyle{abbrv}
+\bibliography{../../LaTeX/modelos/refs}
+% \bibliography{../refs}
+
+\end{document} 
