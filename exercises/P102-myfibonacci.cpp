@@ -1,18 +1,22 @@
 #include <iostream>
-using namespace std;
+
 int main()
 {
-    int n, i, aa = 0, a = 1, F;
-    cout << "Digite o numero de termos da sequencia de Fibonacci: ";
-    cin >> n;
-    cout << aa << " " << a << " ";
-    for (i = 0; i < n - 2; i++)
+    int n;
+    auto aa = 0;
+    auto a = 1; 
+    auto F=0;
+    
+    std::cout << "Digite o numero de termos da sequencia de Fibonacci: ";
+    std::cin >> n;
+    std::cout << aa << " " << a << " ";
+    for (auto i = 0; i < n - 2; i++)
     {
         F = a + aa;
         cout << F << " ";
         aa = a;
         a = F;
     }
-    cout << endl;
+    std::cout << std::endl;
     return 0;
 }
