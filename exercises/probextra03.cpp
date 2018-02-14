@@ -1,15 +1,15 @@
 #include <iostream>
-using namespace std;
+
 int main()
 {
-    int n, i, k;
+    int n, k;
     float sn = 0.0;
-    cout << "Digite um numero: ";
-    cin >> n;
+    std::cout << "Digite um numero: ";
+    std:: cin >> n;
     k = n;
-    for (i = 1; i <= n; i++)
+    for (auto i = 1; i <= n; i++)
     {
-        sn = sn + (float)i / k;
+        sn = sn + static_cast<float>(i) / k;
         k--;
     }
     cout << sn << endl;
